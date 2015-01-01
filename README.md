@@ -15,7 +15,7 @@ With a custom build you can get a library from ** 160kb (56kb with Gzip) ** and 
 When you create a custom build the libraries automatically update at the last review.
 
 
-##Dependencias
+##Dependencies
 
 *python
 *java => 1.6
@@ -35,10 +35,10 @@ When you create a custom build the libraries automatically update at the last re
 1. Create your js map file in directory maps (It's possible create subdir) this contains the ol3 map definition.
 Js File Example:
 
-	var layers = [new ol.layer.Tile({
-	    visible: true,
-	    preload: Infinity,
-	    source: new ol.source.BingMaps({
+    var layers = [new ol.layer.Tile({
+    visible: true,
+    preload: Infinity,
+    source: new ol.source.BingMaps({
 	      key: 'Ak-dzM4wZjSqTlzveKz5u0d4IQ4bRzVI309GxmkgSVr1ewS6iPSrOvOKhA-CJlm3',
 	      imagerySet: 'Road'
 	    })
@@ -56,9 +56,9 @@ Js File Example:
 	  })
 	});
 
-2.[optional] Create your css file with same name that js file.
-3.Open cmd/Terminal and go to Project Dir.
-4.Exexute grunt #your file name#
+2. [optional] Create your css file with same name that js file.
+3. Open cmd/Terminal and go to Project Dir.
+4. Exexute grunt #your file name#
 
 ##Results
 1. Go to Dist folder in project dir.
@@ -69,9 +69,6 @@ Js File Example:
  *ol.min.js.map -> Source Map for easy debug compiled file.
  *gz folder -> Contains gzip css and js files for best performance. (Recommended use in production)
 
-##Testing
-
-TODO: añadir un html de ejemplo para poder probar-lo
 
 ## Working with custom build
 1. Include css file in your html file in head section.
@@ -91,7 +88,7 @@ In js map file is posible work with external library's for default it's possible
 
 ##Optional Params
 The project include the package.json file, this file contains the aditional params and configurations.
-###Build
+####Build
 * update : [true|false] if true get all change of ol3 and google clousure library
 * gzip: [true|false] if true create a gzip files of css and js.
 * compile: [true|false] if false not compile the js files and write a raw file.
@@ -99,9 +96,10 @@ The project include the package.json file, this file contains the aditional para
 * sourceMap: [true|false] if true generate [sourceMap](http://www.html5rocks.com/en/tutorials/developertools/sourcemaps/) for debug compile files.
 * html : [true|false] copy a html file from maps dir a dist dir or generate a basic html for view lib created.
 * lib: [true|false] if true include the libs in dist folders. This is only for debug with deps or for working with [sourceMap](http://www.html5rocks.com/en/tutorials/developertools/sourcemaps/)
-###Libs
-*url: Url of git repository for clone
-*branch : branch for clone for default use master
+
+####Libs
+* url: Url of git repository for clone
+* branch : branch for clone for default use master
 
 For apply change params in libs it's need delete the folder in libs dir and build the map another time.
 
