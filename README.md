@@ -10,23 +10,23 @@ Project for create custom build from ol3
 This project it's a tools for creating custom builds for OpenLayers3. For this job use [grunt] (http://gruntjs.com/) tasks. It's easy create build with grunt. 
 This project only compile the funcionality that you need for get the minimal library possible. This is your ol3 personal library with you really need. 
 The benefits of a custom compilation are to minimize loading time and reduce data traffic, the result is a faster page loading. In mobile devices this benefit is still more important.
-With a custom build you can get a library from ** 160kb (56kb with Gzip) ** and reduce  three times compared to using the complete library of OL3. Aditional  is minimized the number of http requests including the map definition with the ol3 library for creating a single file.
+With a custom build you can get a library from **160kb (56kb with Gzip)** and reduce  three times compared to using the complete library of OL3. Aditional  is minimized the number of http requests including the map definition with the ol3 library for creating a single file.
 
 When you create a custom build the libraries automatically update at the last review.
 
 
 ##Dependencies
 
-*python
-*java => 1.6
-*[Nodejs](http://nodejs.org/) => 0.8.0
-*[grunt](http://gruntjs.com/)  => 0.4.5
+* python
+* java => 1.6
+* [Nodejs](http://nodejs.org/) => 0.8.0
+* [grunt](http://gruntjs.com/)  => 0.4.5
 
 ##Getting Started
 
 1. Download the project 
- *[git clone](https://github.com/vrubinat/ol3-build-custom.git)
- *[zip](https://github.com/vrubinat/ol3-build-custom/archive/master.zip)
+ * [git clone](https://github.com/vrubinat/ol3-build-custom.git)
+ * [zip](https://github.com/vrubinat/ol3-build-custom/archive/master.zip)
 2. Open cmd/Terminal and go to Project Dir.
 3. npm --install ( Install all node_modules).
 4. build a custom map execute: *grunt mapquest*
