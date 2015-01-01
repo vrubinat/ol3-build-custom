@@ -35,26 +35,24 @@ When you create a custom build the libraries automatically update at the last re
 1. Create your js map file in directory maps (It's possible create subdir) this contains the ol3 map definition.
 Js File Example:
 
-    var layers = [new ol.layer.Tile({
-    visible: true,
-    preload: Infinity,
-    source: new ol.source.BingMaps({
-	      key: 'Ak-dzM4wZjSqTlzveKz5u0d4IQ4bRzVI309GxmkgSVr1ewS6iPSrOvOKhA-CJlm3',
-	      imagerySet: 'Road'
-	    })
-	  })];
-
-
-
-	var map = new ol.Map({
-	  controls: [new ol.control.Zoom()],
-	  layers: layers,
-	  target: 'map',
-	  view: new ol.View({
-	    center: [-6655.5402445057125, 6709968.258934638],
-	    zoom: 13
-	  })
-	});
+		var layers = [new ol.layer.Tile({
+		visible: true,
+		preload: Infinity,
+		source: new ol.source.BingMaps({
+			key: 'Ak-dzM4wZjSqTlzveKz5u0d4IQ4bRzVI309GxmkgSVr1ewS6iPSrOvOKhA-CJlm3',
+			imagerySet: 'Road'
+			})
+		})];
+	
+		var map = new ol.Map({
+	  		controls: [new ol.control.Zoom()],
+	  		layers: layers,
+	  		target: 'map',
+	  		view: new ol.View({
+	    		center: [-6655.5402445057125, 6709968.258934638],
+	    		zoom: 13
+	  		})
+		});
 
 2. [optional] Create your css file with same name that js file.
 3. Open cmd/Terminal and go to Project Dir.
