@@ -1,5 +1,5 @@
 
-module.exports = function(grunt){
+module.exports = function(grunt,conf,file){
 	grunt.registerTask('compileOl3','compile ol3',function(){
 
 		//Build external ol3 deps
@@ -10,7 +10,31 @@ module.exports = function(grunt){
 		grunt.loadNpmTasks('grunt-contrib-compress');
 		grunt.loadNpmTasks('grunt-contrib-clean');
 
-		grunt.file.mkdir('dist');
+		var externs = conf.externs;
+		var f = file.split('/')[0];
+		var dir = 'dist/'+f;
+
+		var cssMin = {};
+		cssMin[dir+'/ol.min.css'] = ['builder/*.css'];
+
+		var jsSourceMap = {};
+		jsSourceMap[dir+'/ol.min.js'] = {append: "//@ sourceMappingURL=ol.min.js.map"};
+		
+		var fse = require('fs-extra');
+		var fs = require('fs');
+		fse.removeSync(dir);
+		fse.mkdirsSync(dir);
+
+		if (conf.libs){
+			fs.link('lib',dir+'/lib');
+			fs.link('builder',dir+'/builder');
+		} 
+
+		var sourceMap = null;
+		if (conf.sourceMap){
+			sourceMap = dir+'/ol.min.js.map';
+		}
+
 		//read ol3 configs
 		var ol = grunt.file.readJSON('lib/ol3/config/ol.json');
 		var extern = ol.compile.externs;
@@ -22,7 +46,7 @@ module.exports = function(grunt){
 		for (var i=0,len=extern.length;i<len;i++){
 			ext.push('lib/ol3/'+extern[i]);
 		}
-		ext.push('lib/ol3/externs/jquery-1.9.js');
+		ext= ext.concat(externs);
 		var def=[];
 		for (var i=0,len=define.length;i<len;i++){
 			def.push("'"+define[i]+"'");
@@ -46,7 +70,7 @@ module.exports = function(grunt){
 			    // [OPTIONAL] Root with prefix takes a pair of strings separated with a space,
 			    //    so proper way to use it is to suround with quotes.
 			    //    can be a string or array
-			    root_with_prefix: ['"lib/ol3/build ../../../ol3/build"','"lib/ol3/src ../../../ol3/src"','"builder ../../../../builder"'],
+			    root_with_prefix: ['"lib/ol3/build lib/ol3/build"','"lib/ol3/src lib/ol3/src"','"builder builder"'],
 
 			    // [OPTIONAL] string or array
 			   // path_with_depspath: ''
@@ -61,7 +85,7 @@ module.exports = function(grunt){
 			    //src: 'map.js',
 
 			    // [OPTIONAL] If not set, will output to stdout
-			    dest: 'dist/ol.js'
+			    dest: dir+'/ol.js'
 
 			  }
 			},
@@ -77,7 +101,7 @@ module.exports = function(grunt){
 			    checkModified: true,
 				namespaces:'olc',
 			    //inputs: ['lib/goog/closure/goog','lib/ol3/src',  'builder'],
-	 			compile: true,
+	 			compile: conf.compile,
 			    // [OPTIONAL] Set Closure Compiler Directives here
 			    compilerOpts: {
 			       compilation_level: 'ADVANCED_OPTIMIZATIONS',
@@ -87,7 +111,7 @@ module.exports = function(grunt){
 			       jscomp_off: jscomp_error,
 			       summary_detail_level: 3,
 			       output_wrapper: "(function(){%output%}).call(this);",
-			       create_source_map: 'dist/ol.min.js.map'
+			       create_source_map: sourceMap
 			    },
 			    // [OPTIONAL] Set exec method options
 			    execOpts: {
@@ -106,30 +130,16 @@ module.exports = function(grunt){
 			    //src:'builder',
 
 			    // [OPTIONAL] set an output file
-			    dest: 'dist/ol.min.js'
+			    dest: dir+'/ol.min.js'
 			  }
 			},
-			cssmin: {
-			  ol3: {
-			    files: [{
-			      expand: true,
-			      cwd: 'lib/ol3/css',
-			      src: ['*.css', '!*.min.css'],
-			      dest: 'dist/',
-			      ext: '.min.css'
-			    }]
-			  }
+			cssmin: {			 
+			  	ol3: {files: cssMin}
 			},
 			file_append: {
-		    default_options: {
-		      files: {
-		        'dist/ol.min.js': {
-		          append: "//@ sourceMappingURL=ol.min.js.map"
-		        }
-		      }
-		    }
-		  },
-		  compress: {
+			    default_options: {files: jsSourceMap }
+		  	},
+		  	compress: {
 			  main: {
 			    options: {
 			      mode: 'gzip',
@@ -138,18 +148,29 @@ module.exports = function(grunt){
 			    files: [
 			      // Each of the files in the src/ folder will be output to
 			      // the dist/ folder each with the extension .gz.js
-			      {expand: true, src: ['dist/*.min.js'], dest: '', ext: '.min.gz.js'},
-			      {expand: true, src: ['dist/*.min.css'], dest: '', ext: '.min.gz.css'}
+			      {expand: true, flatten: true, src: [dir+'/*.min.js'], dest: dir+'/gz/', ext: '.min.js'},
+			      {expand: true, flatten: true, src: [dir+'/*.min.css'], dest: dir+'/gz/', ext: '.min.css'}
 			    ]
 			  }
-			},
-		clean: {
-  			dist: ["dist"]
 			}
 		});
 	
+		var tasks = ['closureBuilder:ol3','cssmin:ol3'];
 
-		grunt.task.run(['clean:dist','closureDepsWriter:ol3','closureBuilder:ol3','cssmin:ol3','file_append','compress']);
+		if (conf.deps){
+			tasks.push('closureDepsWriter:ol3');
+		}
+		if (conf.compile && conf.sourceMap){
+			tasks.push('file_append');
+		}
+		if (conf.gzip){
+			tasks.push('compress');
+		}
+		if (conf.html){
+			fse.copySync('builder/map.html',dir+"/"+f+".html");
+		}
+		
+		grunt.task.run(tasks);
 
 	});
 };	

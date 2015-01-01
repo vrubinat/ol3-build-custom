@@ -1,6 +1,6 @@
 {
   "name": "custom-build",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "goog": {
     "url": "https://github.com/google/closure-library.git"
   },
@@ -9,7 +9,16 @@
     "branch": "master"
   },
   "build": {
-    "file":"tile-vector.js"
+    "deps":false,
+    "update": true,
+    "gzip":true,
+    "compile":true,
+    "sourceMap":false,
+    "libs":false,
+    "html":true,
+    "externs": [
+      "lib/ol3/externs/jquery-1.9.js"
+    ]
   },
   "devDependencies": {
     "async": "^0.9.0",
@@ -18,6 +27,7 @@
     "grunt-closure-tools": "^0.9.7",
     "grunt-contrib-clean": "^0.6.0",
     "grunt-contrib-compress": "^0.13.0",
+    "grunt-contrib-copy": "^0.7.0",
     "grunt-contrib-cssmin": "^0.11.0",
     "grunt-downloadfile": "^0.3.2",
     "grunt-file-append": "0.0.5",

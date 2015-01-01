@@ -1,4 +1,4 @@
-module.exports = function(grunt){
+module.exports = function(grunt,update){
 
 	grunt.registerTask('updateLibs','update Libs Need for ol3',function(){
 		grunt.loadNpmTasks('grunt-git');
@@ -14,7 +14,7 @@ module.exports = function(grunt){
 		    		}
 	  			}
 			});
-			grunt.task.run('gitpull:goog');
+			update && grunt.task.run('gitpull:goog');
 		}else{
 			grunt.config.merge({
 				gitclone: {
@@ -41,7 +41,7 @@ module.exports = function(grunt){
 		    		}
 	  			}
 			});
-			grunt.task.run('gitpull:ol3');
+			update &&  grunt.task.run('gitpull:ol3');
 		}else{
 			grunt.config.merge({
 				gitclone: {
