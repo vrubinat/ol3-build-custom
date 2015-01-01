@@ -64,10 +64,12 @@ Js File Example:
 1. Go to Dist folder in project dir.
 2. You view a Folder that name is your js file.
 3. The build process create this results:
- *ol.min.js -> Compiled Js File.
- *ol.min.css -> Minimized Css File.
- *ol.min.js.map -> Source Map for easy debug compiled file.
- *gz folder -> Contains gzip css and js files for best performance. (Recommended use in production)
+ * ol.min.js -> Compiled Js File.
+ * ol.min.css -> Minimized Css File.
+ * ol.min.js.map [optional] -> Source Map for easy debug compiled file.
+ * gz folder [optional]-> Contains gzip css and js files for best performance. (Recommended use in production)
+ * ol.js [optional] -> Javascript Deps file for debug.
+ * {filename}.html [optional] -> html file for test the custom build. 
 
 
 ## Working with custom build
