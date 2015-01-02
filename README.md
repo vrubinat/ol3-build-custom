@@ -101,8 +101,13 @@ The project include the package.json file, this file contains the aditional para
 * url: Url of git repository for clone
 * branch : branch for clone for default use master
 
-For apply change params in libs it's need delete the folder in libs dir and build the map another time.
+>For apply change params in libs it's need delete the folder in libs dir and build the map another time.
 
+##License
+
+Copyright (c) 2014 Victor Rubinat
+
+Licensed under the MIT license.
 
 
 
