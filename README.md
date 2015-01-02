@@ -28,7 +28,7 @@ When you create a custom build the libraries automatically update at the last re
  * [git clone](https://github.com/vrubinat/ol3-build-custom.git)
  * [zip](https://github.com/vrubinat/ol3-build-custom/archive/master.zip)
 2. Open cmd/Terminal and go to Project Dir.
-3. npm --install ( Install all node_modules).
+3. npm install ( Install all node_modules).
 4. build a custom map execute: *grunt mapquest*
 
 ##Create Your Custom Map
