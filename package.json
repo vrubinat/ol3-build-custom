@@ -22,7 +22,7 @@
     "sourceMap": false,
     "libs": false,
     "html": true,
-    "onlyOl3":true,
+    "onlyOl3":false,
     "externs": [
       "lib/ol3/externs/jquery-1.9.js"
     ]
