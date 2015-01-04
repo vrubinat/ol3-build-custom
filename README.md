@@ -96,16 +96,14 @@ The project include the package.json file, this file contains the aditional para
 * sourceMap: [true|false] if true generate [sourceMap](http://www.html5rocks.com/en/tutorials/developertools/sourcemaps/) for debug compile files.
 * html : [true|false] copy a html file from maps dir a dist dir or generate a basic html for view lib created.
 * lib: [true|false] if true include the libs in dist folders. This is only for debug with deps or for working with [sourceMap](http://www.html5rocks.com/en/tutorials/developertools/sourcemaps/)
-
+* onlyOl3: [true|false] if true not include your map in the lib, and create the api of ol3 for classes that  include in your map file. Only include this api's for created a more small lib for better perfom.
 ####Libs
 * url: Url of git repository for clone
 * branch : branch for clone for default use master
 
->For apply change params in libs it's need delete the folder in libs dir and build the map another time.
+>For apply change of params in libs it's need delete the folder in libs directory and build the map another time.
 
 ##License
-
-Copyright (c) 2014 Victor Rubinat
 
 Licensed under the MIT license.
 

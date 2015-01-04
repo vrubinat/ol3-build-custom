@@ -1,6 +1,12 @@
 {
-  "name": "custom-build",
+  "name": "ol3-custom-build",
+  "description": "tool for build custom openlayers library.",
   "version": "0.1.0",
+  "author": "Victor Rubinat<vrubinat@gmail.com>",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/vrubinat/ol3-build-custom.git"
+  },
   "goog": {
     "url": "https://github.com/google/closure-library.git"
   },
@@ -9,18 +15,20 @@
     "branch": "master"
   },
   "build": {
-    "deps":false,
+    "deps": false,
     "update": true,
-    "gzip":true,
-    "compile":true,
-    "sourceMap":false,
-    "libs":false,
-    "html":true,
+    "gzip": true,
+    "compile": true,
+    "sourceMap": false,
+    "libs": false,
+    "html": true,
+    "onlyOl3":true,
     "externs": [
       "lib/ol3/externs/jquery-1.9.js"
     ]
   },
   "devDependencies": {
+    "assert": "^1.3.0",
     "async": "^0.9.0",
     "fs-extra": "^0.13.0",
     "grunt": "^0.4.5",
@@ -34,6 +42,9 @@
     "grunt-git": "^0.3.2",
     "grunt-web-server": "^1.2.3",
     "grunt-zip": "^0.16.2",
-    "rbush": "^1.3.4"
+    "jsdoc": "^3.3.0-alpha13",
+    "nomnom": "^1.8.1",
+    "rbush": "^1.3.4",
+    "walk": "^2.3.4"
   }
 }

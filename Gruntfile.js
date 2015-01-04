@@ -1,4 +1,5 @@
 
+
 function getFiles(dir,files_){
 	var fs = require('fs');
     files_ = files_ || [];
@@ -35,15 +36,17 @@ module.exports = function(grunt) {
 		}
 	});
 	grunt.loadNpmTasks('grunt-web-server');
+	
+	
+	var conf=grunt.config.get('pkg').build;
 
 	
-	
 	grunt.registerTask('build', "build ol3 for maps param : file name: ",function(file){
-			var conf=grunt.config.get('pkg').build
 			require('./tasks/updateLibs')(grunt,conf.update);
 			require('./tasks/compileOl3')(grunt,conf,file);
-			var f = require('./tasks/generate')(grunt,file);
-			grunt.task.run([f,'updateLibs','compileOl3']);
+			require('./tasks/ol3-exports')(grunt,conf);
+			var f = require('./tasks/generate')(grunt,conf,file);
+			grunt.task.run(['updateLibs','exports',f,'compileOl3']);
 	});
 
 	var files = getFiles('maps')
@@ -53,5 +56,4 @@ module.exports = function(grunt) {
 		grunt.registerTask(files[i][0], ['build:'+files[i][1]]);
 	}
 	
-
 };

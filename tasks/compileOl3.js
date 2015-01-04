@@ -4,6 +4,8 @@ module.exports = function(grunt,conf,file){
 
 		//Build external ol3 deps
 		require('../lib/ol3/tasks/build-ext')();
+		require('../lib/ol3/tasks/generate-info')();		
+	    //require('../lib/ol3/tasks/generate-exports')({"exports": ["*"]});		
 		grunt.loadNpmTasks('grunt-closure-tools');
 		grunt.loadNpmTasks('grunt-contrib-cssmin');
 		grunt.loadNpmTasks('grunt-file-append');
@@ -35,6 +37,11 @@ module.exports = function(grunt,conf,file){
 			sourceMap = dir+'/ol.min.js.map';
 		}
 
+
+		var copileSrc = ['lib/goog','lib/ol3/build','lib/ol3/src','builder'];
+
+		var wrapper = "(function(){%output%}).call(this);"
+		
 		//read ol3 configs
 		var ol = grunt.file.readJSON('lib/ol3/config/ol.json');
 		var extern = ol.compile.externs;
@@ -99,7 +106,8 @@ module.exports = function(grunt,conf,file){
 			    // [OPTIONAL] set to true if you want to check if files were modified
 			    // before starting compilation (can save some time in large sourcebases)
 			    checkModified: true,
-				namespaces:'olc',
+				//namespaces:'olc',
+				inputs:'builder/map.js',
 			    //inputs: ['lib/goog/closure/goog','lib/ol3/src',  'builder'],
 	 			compile: conf.compile,
 			    // [OPTIONAL] Set Closure Compiler Directives here
@@ -110,7 +118,7 @@ module.exports = function(grunt,conf,file){
 			       warning_level: 'verbose',
 			       jscomp_off: jscomp_error,
 			       summary_detail_level: 3,
-			       output_wrapper: "(function(){%output%}).call(this);",
+			       output_wrapper: wrapper,
 			       create_source_map: sourceMap
 			    },
 			    // [OPTIONAL] Set exec method options
@@ -126,8 +134,7 @@ module.exports = function(grunt,conf,file){
 			  
 			    // [OPTIONAL] Target files to compile. Can be a string, an array of strings
 			    // or grunt file syntax (<config:...>, *)
-			    src: ['lib/goog','lib/ol3/build','lib/ol3/src', 'builder'],
-			    //src:'builder',
+			    src: copileSrc,
 
 			    // [OPTIONAL] set an output file
 			    dest: dir+'/ol.min.js'

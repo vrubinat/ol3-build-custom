@@ -1,4 +1,4 @@
-module.exports = function(grunt,file){
+module.exports = function(grunt,conf,file){
 
 	grunt.registerTask('gen-'+file,'generate Build File from maps config',function(){
 		//var a = grunt.option.flags();
@@ -35,20 +35,37 @@ module.exports = function(grunt,file){
 			
 		}	
 
-		txt += "var Map = function(options){\n";
-		txt += str;
-		txt +="};\n\n";
+		
 
-		txt+= "if (goog.global.document.body){\n";
-		txt+= "   new Map();\n";
-		txt+="}else{\n";
-		txt+="  goog.global.onload = function (){ \n";
-		txt+="  new Map();\n";
-		txt+="  }\n";
-		txt+="}\n";
+
+		if (conf.onlyOl3){
+			var exp = grunt.file.readJSON('lib/ol_export.json');
+			var exports;
+			for (var i=0,len=res.length;i<len;i++){
+				dep=res[i].replace('(','').replace('[','');				
+				exports = exp[dep];
+				if (exports){
+					for ( var ii=0,len2=exports.length;ii<len2;ii++){
+						txt+= exports[ii];
+					}
+				}
+		}	
+
+		}else{
+			txt += "var Map = function(options){\n";
+			txt += str;
+			txt +="};\n\n";
+
+			txt+= "if (goog.global.document.body){\n";
+			txt+= "   new Map();\n";
+			txt+="}else{\n";
+			txt+="  goog.global.onload = function (){ \n";
+			txt+="  new Map();\n";
+			txt+="  }\n";
+			txt+="}\n";
+		}
 		
-		
-		var jq = str.match(/(\b\$*)+[|\(]/g);
+		var jq = str.match(/(\$\(|\$.)/);
 		if (jq && jq.length > 0)jq=true;
 
 		// Copy Css files from ol3
@@ -81,9 +98,14 @@ module.exports = function(grunt,file){
 			html +="<meta http-equiv='Content-Type' content='text/html; charset=utf-8'> ";
 			html +="<link rel='stylesheet' type='text/css' href='ol.min.css'>";
 			if(jq)html +="<script type='text/javascript' src='https://code.jquery.com/jquery-1.9.1.min.js'></script>";	
-			html +="<script async type='text/javascript' src='ol.min.js'></script>";
+			if (conf.onlyOl3){
+				html +="<script type='text/javascript' src='ol.min.js'></script>";	
+			}else{
+				html +="<script async type='text/javascript' src='ol.min.js'></script>";	
+			}			
 			html +="</head><body>";
 			html +="<div id='map' ></div>";
+		    if(conf.onlyOl3) html +="<script type='text/javascript'>" + str + "</script>";
 			html +="</body></html>";	
 			grunt.file.write("builder/map.html",html);
 
