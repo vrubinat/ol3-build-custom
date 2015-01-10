@@ -39,6 +39,7 @@ module.exports = function(grunt,conf,file){
 
 
 		var copileSrc = ['lib/goog','lib/ol3/build','lib/ol3/src','builder'];
+		
 
 		var wrapper = "(function(){%output%}).call(this);"
 		
@@ -51,8 +52,12 @@ module.exports = function(grunt,conf,file){
 		//modify extern path
 		var ext=[];
 		for (var i=0,len=extern.length;i<len;i++){
-			ext.push('lib/ol3/'+extern[i]);
+			if (extern[i] != "externs/oli.js" && extern[i]!="externs/olx.js" || conf.onlyOl3){
+				ext.push('lib/ol3/'+extern[i]);	
+			}
+			
 		}
+
 		ext= ext.concat(externs);
 		var def=[];
 		for (var i=0,len=define.length;i<len;i++){

@@ -15,20 +15,29 @@ module.exports = function(grunt,conf,file){
 		
 		var buffer = grunt.file.read('maps/' + file + ".js");
 		var str = buffer.toString();
-		str = str.replace(/\(/g, '( ');
-		var res = str.match(/(\bol.*)+[|\(]/g);
+		//str = str.replace(/\(/g, '( ');
+		var res = str.match(/(\bol.*\b)/g);
 		//grunt.log.writeln(res);
 		var dep;
 		var format ="goog.require('#');\n";
 		var fs = require('fs');
 		var txt="goog.provide('olc')\n";
-
+		var index;
 		for (var i=0,len=res.length;i<len;i++){
-			dep=res[i].replace('(','').replace('[','');
-			if ((/^ol.proj./).test(dep)){
+
+			dep=res[i];
+			index=res[i].indexOf(' ');
+			
+			if (index==-1)index=res[i].indexOf("(");
+			if (index!=-1)dep=res[i].slice(0,index);
+								
+			if ((/.has./).test(dep)||(/^olx.*/).test(dep)||(/^oli.*/).test(dep)){
+			}else if((/^ol.proj./).test(dep)){
 				txt += format.replace('#','ol.proj');	 
 			}else if((/^ol.coordinate./).test(dep)){			
-				txt += format.replace('#','ol.coordinate');	 
+				txt += format.replace('#','ol.coordinate');	
+			}else if((/^ol.control.default/).test(dep)){
+				txt += format.replace('#','ol.control');	
 			}else{	
 				txt +=format.replace('#',dep);	
 			}
